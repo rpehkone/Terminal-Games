@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 12:00:15 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/11/24 16:56:07 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/11/24 20:21:01 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,37 +65,32 @@ void	make_frame(char size, char **arena, int fd)
 	}
 }
 
-char	timer(void)
+char	timer(frame_time)
 {
 	struct timeval	timeout;
 	struct timeval	stop;
 	struct timeval	start;
 	int				ready_for_reading;
 	int				read_bytes;
+	int				ms;
 	fd_set			input_set;
 	char			c[50];
 
+	c [0] = 0;
 	read_bytes = 0;
 	ready_for_reading = 0;
 	gettimeofday(&start, NULL);
 	FD_SET(0, &input_set);
 	timeout.tv_sec = 0;
-	timeout.tv_usec = 500000;
+	timeout.tv_usec = frame_time;
 	ready_for_reading = select(1, &input_set, NULL, NULL, &timeout);
 	if (ready_for_reading)
 		read_bytes = read(0, c, 50);
 	gettimeofday(&stop, NULL);
-	/*if (stop.tv_sec - start.tv_sec)
-	{
-		write(1, "a", 3);
-		usleep(505000 - (start.tv_usec - stop.tv_usec));
-	}
-	else
-	{
-		write(1, "b", 3);
-		//usleep(505000 - (stop.tv_usec - start.tv_usec));
-	}*/
-	usleep(200000);
+	ms = (((stop.tv_sec) * 1000 + (stop.tv_usec) / 1000) - ((start.tv_sec) * 1000 + (start.tv_usec) / 1000));
+	ms *= 1000;
+	//printf ("%d\n", ms);
+	usleep(6000 + frame_time - ms);
 	return (c[0]);
 }
 
@@ -123,7 +118,7 @@ void	engine(int size)
 		while ((len = read(fbuff, tmp, (size * size * 6))) > 0)
 			write(1, tmp, len);
 		close(fbuff);
-		c = timer();
+		c = timer(300000);
 	}
 	remove(".buff");
 	system("/bin/stty cooked");
