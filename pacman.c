@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 16:50:31 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/11/24 17:11:09 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/11/26 19:13:02 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,7 @@ void	game(char c, char **arena, int size)
 
 int		main(void)
 {
-	int	size;
-
-	size = 40;
-	engine(size);
+	engine(40, 40, 200000, BLUE);
 	printf("GAME OVER");
 	return (0);
 }
