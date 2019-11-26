@@ -6,13 +6,13 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 16:50:31 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/11/26 19:13:02 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/11/26 19:32:17 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "engine.h"
 
-void	game(char c, char **arena, int size)
+void	game(char c, char **arena, int size_w, int size_h)
 {
 	static char p1_c = 'd';
 	static char p1_x = 2;
@@ -44,12 +44,12 @@ void	game(char c, char **arena, int size)
 	else if (p1_c == 'd')
 		p1_x++;
 	if (p1_x < 0)
-		p1_x = size - 1;
-	else if (p1_x > size - 1)
+		p1_x = size_w - 1;
+	else if (p1_x > size_w - 1)
 		p1_x = 0;
 	if (p1_y < 0)
-		p1_y = size - 1;
-	else if (p1_y > size - 1)
+		p1_y = size_w - 1;
+	else if (p1_y > size_w - 1)
 		p1_y = 0;
 	if (ghost1_x > p1_x)
 		ghost1_x--;

@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 15:01:22 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/11/26 19:12:45 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/11/26 19:31:48 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_over(char *str, int color)
 	exit(0);
 }
 
-void	game(char c, char **arena, int size)
+void	game(char c, char **arena, int size_w, int size_h)
 {
 	static char p1_c = 'd';
 	static char p1_x = 2;
@@ -50,7 +50,7 @@ void	game(char c, char **arena, int size)
 	static char p2_c = '1';
 	static char p2_x = 38;
 	static char p2_y = 19;
-
+	(void)size_h;
 	if (c == 'w' || c == 'a' || c == 's' || c == 'd')
 	{
 		if (c == 'w' && p1_c != 's')
@@ -83,12 +83,12 @@ void	game(char c, char **arena, int size)
 	else if (p1_c == 'd')
 		p1_x++;
 	if (p1_x < 0)
-		p1_x = size - 1;
-	else if (p1_x > size - 1)
+		p1_x = size_w - 1;
+	else if (p1_x > size_w - 1)
 		p1_x = 0;
 	if (p1_y < 0)
-		p1_y = size - 1;
-	else if (p1_y > size - 1)
+		p1_y = size_w - 1;
+	else if (p1_y > size_w - 1)
 		p1_y = 0;
 
 	if (p2_c == '5')
@@ -100,12 +100,12 @@ void	game(char c, char **arena, int size)
 	else if (p2_c == '3')
 		p2_x++;
 	if (p2_x < 0)
-		p2_x = size - 1;
-	else if (p2_x > size - 1)
+		p2_x = size_w - 1;
+	else if (p2_x > size_w - 1)
 		p2_x = 0;
 	if (p2_y < 0)
-		p2_y = size - 1;
-	else if (p2_y > size - 1)
+		p2_y = size_w - 1;
+	else if (p2_y > size_w - 1)
 		p2_y = 0;
 
 	if (p1_y == p2_y && p1_x == p2_x)

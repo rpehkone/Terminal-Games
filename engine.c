@@ -6,26 +6,26 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 12:00:15 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/11/26 19:14:20 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/11/26 20:47:23 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "engine.h"
 
-char	**make_arena(char size)
+char	**make_arena(char size_w, char size_h)
 {
 	char **arena;
 	char i;
 	char j;
 
 	i = 0;
-	arena = (char**)malloc(sizeof(char*) * size);
-	while (i < size)
+	arena = (char**)malloc(sizeof(char*) * size_w);
+	while (i < size_w)
 	{
-		arena[i] = (char*)malloc(sizeof(char) * (size * 1));
-		arena[i][size] = '\0';
+		arena[i] = (char*)malloc(sizeof(char) * (size_h * 1));
+		arena[i][size_h] = '\0';
 		j = 0;
-		while (j < size)
+		while (j < size_h)
 		{
 			arena[i][j] = BLANK;
 			j++;
@@ -63,7 +63,7 @@ void	ft_putnbr_fd(int n, int fd)
 		write(fd, &str[size++], 1);
 }
 
-void	make_frame(char size, char **arena, int fd, int edge_color)
+void	make_frame(char size_w, char size_h, char **arena, int fd, int edge_color)
 {
 	int y;
 	int x;
@@ -81,15 +81,16 @@ void	make_frame(char size, char **arena, int fd, int edge_color)
 			else if (edge_color == WHITE)
 				edge_color = 231;
 	x = 0;
-	while (x <= size)
+	while (x <= size_w + 1)
 	{
 		write(fd, "\e[48;5;", 7);
 		ft_putnbr_fd(edge_color, fd);
 		write(fd, "m\03  \e[0m", 8);
 		x++;
 	}
+	write(fd, "\n\r", 2);
 	y = 0;
-	while (y < size)
+	while (y < size_h)
 	{
 		x = 0;
 		write(fd, "\e[48;5;", 7);
@@ -120,7 +121,7 @@ void	make_frame(char size, char **arena, int fd, int edge_color)
 		write(fd, "\n\r", 2);
 	}
 	x = 0;
-	while (x <= size + 1)
+	while (x <= size_w + 1)
 	{
 		write(fd, "\e[48;5;", 7);
 		ft_putnbr_fd(edge_color, fd);
@@ -166,17 +167,16 @@ void	engine(int size_w, int size_h, int speed, int edge_color)
 	int		len;
 
 	c = 0;
-	(void)size_w;
-	arena = make_arena(size_h);
+	arena = make_arena(size_h, size_w);
 	tmp = malloc(size_h * size_w * 22);
 	fclose(fopen(".buff", "w"));
 	system("/bin/stty raw");
 	while (c != ESC && c != CTRL_Z)
 	{
 		c = timer(speed);
-		game(c, arena, size_h);
+		game(c, arena, size_w, size_h);
 		fbuff = open(".buff", O_WRONLY);
-		make_frame(size_h, arena, fbuff, edge_color);
+		make_frame(size_w, size_h, arena, fbuff, edge_color);
 		close(fbuff);
 		fbuff = open(".buff", O_RDONLY);
 		write(1, "\e[1;1H\e[2J", 10);
