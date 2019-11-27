@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 15:01:22 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/11/26 20:48:53 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/11/27 09:56:20 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_over(char *str, int color)
 	exit(0);
 }
 
-void	game(char c, char **arena, int size_w, int size_h)
+int		game(char c, char **arena, int size_w, int size_h)
 {
 	static char first = 1;
 	static char p1_y;
@@ -182,16 +182,18 @@ void	game(char c, char **arena, int size_w, int size_h)
 		arena[p2_y][size_w - 1] = BLANK;
 		arena[p2_y + 1][size_w - 1] = BLANK;
 		arena[p2_y + 2][size_w - 1] = BLANK;
+		if (ball_x_pos == size_w)
 		ball_x_pos--;
 		arena[ball_y_pos][ball_x_pos] = BLANK;
 		first = 1;
 	}
 	else
 		arena[ball_y_pos][ball_x_pos] = WHITE; 
+	return (0);
 }
 
 int		main(void)
 {
-	engine(60, 40, 30000, WHITE);
+	engine(36, 22, 50000, WHITE);
 	return (0);
 }

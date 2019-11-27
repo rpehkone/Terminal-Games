@@ -6,7 +6,7 @@
 #    By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/24 16:00:30 by rpehkone          #+#    #+#              #
-#    Updated: 2019/11/24 21:17:45 by rpehkone         ###   ########.fr        #
+#    Updated: 2019/11/26 21:00:10 by rpehkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ all:
 	rm engine.h.gch engine.o
 	make snake pacman pong
 	/bin/stty raw
+	tput civis
 
 snake:
 	gcc engine.a snake.c -o snake

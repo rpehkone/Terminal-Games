@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 12:00:15 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/11/26 20:47:23 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/11/27 13:57:53 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,35 +67,40 @@ void	make_frame(char size_w, char size_h, char **arena, int fd, int edge_color)
 {
 	int y;
 	int x;
-
-			if (edge_color == GREY)
-				edge_color = 237;
-			else if (edge_color == RED)
-				edge_color = 160;
-			else if (edge_color == GREEN)
-				edge_color = 28;
-			else if (edge_color == BLUE)
-				edge_color = 20;
-			else if (edge_color == YELLOW)
-				edge_color = 226;
-			else if (edge_color == WHITE)
-				edge_color = 231;
+	if (edge_color == GREY)
+		edge_color = 237;
+	else if (edge_color == RED)
+		edge_color = 160;
+	else if (edge_color == GREEN)
+		edge_color = 28;
+	else if (edge_color == BLUE)
+		edge_color = 20;
+	else if (edge_color == YELLOW)
+		edge_color = 226;
+	else if (edge_color == WHITE)
+		edge_color = 231;
 	x = 0;
-	while (x <= size_w + 1)
+	if (edge_color != BLANK)
 	{
-		write(fd, "\e[48;5;", 7);
-		ft_putnbr_fd(edge_color, fd);
-		write(fd, "m\03  \e[0m", 8);
-		x++;
+		while (x <= size_w + 1)
+		{
+			write(fd, "\e[48;5;", 7);
+			ft_putnbr_fd(edge_color, fd);
+			write(fd, "m\03  \e[0m", 8);
+			x++;
+		}
+		write(fd, "\n\r", 2);
 	}
-	write(fd, "\n\r", 2);
 	y = 0;
 	while (y < size_h)
 	{
 		x = 0;
-		write(fd, "\e[48;5;", 7);
-		ft_putnbr_fd(edge_color, fd);
-		write(fd, "m\03  \e[0m", 8);
+		if (edge_color != BLANK)
+		{
+			write(fd, "\e[48;5;", 7);
+			ft_putnbr_fd(edge_color, fd);
+			write(fd, "m\03  \e[0m", 8);
+		}
 		while (arena[y][x])
 		{
 			if (arena[y][x] == BLANK)
@@ -112,22 +117,43 @@ void	make_frame(char size_w, char size_h, char **arena, int fd, int edge_color)
 				write(fd, "\e[48;5;226m\03  \e[0m", 18);
 			else if (arena[y][x] == WHITE)
 				write(fd, "\e[48;5;231m\03  \e[0m", 18);
+			else if (arena[y][x] == YELLOW_DOT)
+				write(fd, "\033[1;33m .\033[0m", 14);
+			else if (arena[y][x] == BLUE_LINE_V)
+				write(fd, "\033[0;34m━━\033[0m", 14);
+			else if (arena[y][x] == PACMAN_O)
+				write(fd, "\033[0;33m o\033[0m", 14);
+			else if (arena[y][x] == PACMAN_R)
+				write(fd, "\033[0;33m >\033[0m", 14);
+			else if (arena[y][x] == PACMAN_L)
+				write(fd, "\033[0;33m <\033[0m", 14);
+			else if (arena[y][x] == PACMAN_U)
+				write(fd, "\033[0;33m ^\033[0m", 14);
+			else if (arena[y][x] == PACMAN_D)
+				write(fd, "\033[0;33m v\033[0m", 14);
+			//	ᗣ
+			//	ᗢ
+			//write(fd, "\033[0;33m ᗧ\033[0m", 14);
 			x++;
 		}
 		y++;
-		write(fd, "\e[48;5;", 7);
-		ft_putnbr_fd(edge_color, fd);
-		write(fd, "m\03  \e[0m", 8);
+		if (edge_color != BLANK)
+		{
+			write(fd, "\e[48;5;", 7);
+			ft_putnbr_fd(edge_color, fd);
+			write(fd, "m\03  \e[0m", 8);
+		}
 		write(fd, "\n\r", 2);
 	}
 	x = 0;
-	while (x <= size_w + 1)
-	{
-		write(fd, "\e[48;5;", 7);
-		ft_putnbr_fd(edge_color, fd);
-		write(fd, "m\03  \e[0m", 8);
-		x++;
-	}
+	if (edge_color != BLANK)
+		while (x <= size_w + 1)
+		{
+			write(fd, "\e[48;5;", 7);
+			ft_putnbr_fd(edge_color, fd);
+			write(fd, "m\03  \e[0m", 8);
+			x++;
+		}
 }
 
 char	timer(frame_time)
@@ -174,7 +200,8 @@ void	engine(int size_w, int size_h, int speed, int edge_color)
 	while (c != ESC && c != CTRL_Z)
 	{
 		c = timer(speed);
-		game(c, arena, size_w, size_h);
+		if (game(c, arena, size_w, size_h))
+			return ;
 		fbuff = open(".buff", O_WRONLY);
 		make_frame(size_w, size_h, arena, fbuff, edge_color);
 		close(fbuff);

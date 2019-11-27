@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 15:01:22 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/11/26 19:31:48 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/11/27 09:56:01 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_over(char *str, int color)
 	exit(0);
 }
 
-void	game(char c, char **arena, int size_w, int size_h)
+int		game(char c, char **arena, int size_w, int size_h)
 {
 	static char p1_c = 'd';
 	static char p1_x = 2;
@@ -116,6 +116,7 @@ void	game(char c, char **arena, int size_w, int size_h)
 		ft_over("\t\tPLAYER 1 WINS\t\t", GREEN);
 	arena[p1_y][p1_x] = RED;
 	arena[p2_y][p2_x] = GREEN;
+	return (0);
 }
 
 int		main(void)
