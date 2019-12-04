@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 12:00:15 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/11/27 13:57:53 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/04 21:32:29 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,20 +117,65 @@ void	make_frame(char size_w, char size_h, char **arena, int fd, int edge_color)
 				write(fd, "\e[48;5;226m\03  \e[0m", 18);
 			else if (arena[y][x] == WHITE)
 				write(fd, "\e[48;5;231m\03  \e[0m", 18);
+			else if (arena[y][x] == BLACK)
+			{
+				write(fd, "\e[48;5;232m\03", 12);
+				write(fd, "\033[1;33m  \033[0m", 14);
+				write(fd, "\e[0m", 4);
+			}
 			else if (arena[y][x] == YELLOW_DOT)
+			{
+				write(fd, "\e[48;5;232m\03", 12);
 				write(fd, "\033[1;33m .\033[0m", 14);
+				write(fd, "\e[0m", 4);
+			}
+			else if (arena[y][x] == BLUE_LINE_H)
+			{
+				write(fd, "\e[48;5;232m\03", 12);
+				write(fd, "\033[1;34m━━\033[0m", 14);
+				write(fd, "\e[0m", 4);
+			}
 			else if (arena[y][x] == BLUE_LINE_V)
-				write(fd, "\033[0;34m━━\033[0m", 14);
+			{
+				write(fd, "\e[48;5;232m\03", 12);
+				write(fd, "\033[1;34m ┃\033[0m", 14);
+				write(fd, "\e[0m", 4);
+			}
 			else if (arena[y][x] == PACMAN_O)
-				write(fd, "\033[0;33m o\033[0m", 14);
+			{
+				write(fd, "\e[48;5;232m\03", 12);
+				//write(fd, "\033[1;33m ◯\033[0m", 14);
+				write(fd, "\033[1;33m ⬤\033[0m", 14);
+				write(fd, "\e[0m", 4);
+			}
 			else if (arena[y][x] == PACMAN_R)
-				write(fd, "\033[0;33m >\033[0m", 14);
+			{
+				write(fd, "\e[48;5;232m\03", 12);
+				write(fd, "\033[1;33m ᗧ\033[0m", 14);
+				write(fd, "\e[0m", 4);
+			}
 			else if (arena[y][x] == PACMAN_L)
-				write(fd, "\033[0;33m <\033[0m", 14);
+			{
+				write(fd, "\e[48;5;232m\03", 12);
+				write(fd, "\033[1;33m ᗤ\033[0m", 14);
+				write(fd, "\e[0m", 4);
+			}
 			else if (arena[y][x] == PACMAN_U)
-				write(fd, "\033[0;33m ^\033[0m", 14);
+			{
+				write(fd, "\e[48;5;232m\03", 12);
+				write(fd, "\033[1;33m ᗢ\033[0m", 14);
+				write(fd, "\e[0m", 4);
+			}
 			else if (arena[y][x] == PACMAN_D)
-				write(fd, "\033[0;33m v\033[0m", 14);
+			{
+				write(fd, "\e[48;5;232m\03", 12);
+				write(fd, "\033[1;33m ᗣ\033[0m", 14);
+				write(fd, "\e[0m", 4);
+			}
+			//┗
+			//┛
+			//┓
+			//┏
 			//	ᗣ
 			//	ᗢ
 			//write(fd, "\033[0;33m ᗧ\033[0m", 14);

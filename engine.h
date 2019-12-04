@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 15:55:33 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/11/27 13:55:45 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/04 19:48:13 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@
 # define WHITE 104
 # define LIGHT_BLUE 105
 # define YELLOW_DOT 106
-# define BLUE_LINE_V 107
-# define PACMAN_R 108
+# define BLUE_LINE_H 107
+# define BLUE_LINE_V 108
 # define PACMAN_L 109
 # define PACMAN_U 110
 # define PACMAN_D 111
-# define PACMAN_O 112
+# define PACMAN_R 112
+# define PACMAN_O 113
+# define BLACK 114
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>
