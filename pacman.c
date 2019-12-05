@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 16:50:31 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/05 11:46:01 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/05 14:45:45 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,11 +163,11 @@ void	edit_arena(char **arena, int size_w, int size_h)
 		while (x < size_w)
 		{
 			if (arena[y][x] == BLANK)
-				arena[y][x] = YELLOW_DOT;
-			if (arena[y][x] == BLUE)
-				arena[y][x] = BLUE_LINE_V;
-			//if (arena[y][x] == BLUE_LINE_H)
+				arena[y][x] = BLACK;
+			//if (arena[y][x] == BLUE)
 			//	arena[y][x] = BLUE_LINE_V;
+			//if (arena[y][x] == BLUE_LINE_V)
+			//	arena[y][x] = BLUE;
 			//if (arena[y][x] == BLUE_LINE_H)
 			//	arena[y][x] = BLUE;
 			x++;
@@ -194,7 +194,7 @@ int		game(char c, char ***arena, int size_w, int size_h)
 		first = 0;
 		edit_arena(arena[0], size_w, size_h);
 	}
-	arena[0][p1_y][p1_x] = BLACK;
+	arena[2][p1_y][p1_x] = BLANK;
 //	arena[ghost1_y][ghost1_x] = BLANK;
 	if (c == 'w' || c == 'a' || c == 's' || c == 'd')
 	{
@@ -261,22 +261,39 @@ int		game(char c, char ***arena, int size_w, int size_h)
 	if (mouth == 2)
 	{
 		if (p1_c_old == 'w')
-			arena[0][p1_y][p1_x] = PACMAN_U;
+			arena[2][p1_y][p1_x] = 'v';
 		else if (p1_c_old == 'a')
-			arena[0][p1_y][p1_x] = PACMAN_L;
+			arena[2][p1_y][p1_x] = '>';
 		else if (p1_c_old == 's')
-			arena[0][p1_y][p1_x] = PACMAN_D;
+			arena[2][p1_y][p1_x] = '^';
 		else if (p1_c_old == 'd')
-			arena[0][p1_y][p1_x] = PACMAN_R;
+			arena[2][p1_y][p1_x] = '<';
 		mouth = 0;
 	}
 	else
-		arena[0][p1_y][p1_x] = PACMAN_O;
+	{
+		//arena[0][p1_y][p1_x] = RED;
+		arena[2][p1_y][p1_x] = 'o';
+	}
 	mouth++;
 //	arena[ghost1_y][ghost1_x] = RED;
 	return (0);
 }
 
+/*
+	// ⬤\
+	// ᗢ
+	// ᗣ
+	// ᗧ
+	// ᗤ
+	//━━
+	// ┃
+	//┗
+	//┛
+	//┓
+	//┏
+	//ᗣ
+*/
 int		main(void)
 {
 	engine(26, 30, 200000, BLANK);

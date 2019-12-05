@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 12:00:15 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/05 14:12:19 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/05 14:37:43 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,15 @@ void	make_frame(char size_w, char size_h, char ***arena, int fd, int edge_color)
 			{
 				write(fd, "\e[48;5;", 7);
 				ft_putnbr_fd(arena[0][y][x], fd);
-				write(fd, "m\03  \e[0m", 8);
+				write(fd, "m\03", 2);
+				if (arena[2][y][x] == BLANK)
+					write(fd, "  ", 2);
+				else
+				{
+					write(fd, " ", 1);
+					write(fd, &arena[2][y][x], 1);
+				}
+				write(fd, "\e[0m", 4);
 			}
 			/*
 			}
