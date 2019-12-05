@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 12:00:15 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/04 21:32:29 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/05 12:03:10 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_putnbr_fd(int n, int fd)
 		write(fd, &str[size++], 1);
 }
 
-void	make_frame(char size_w, char size_h, char **arena, int fd, int edge_color)
+void	make_frame(char size_w, char size_h, char ***arena, int fd, int edge_color)
 {
 	int y;
 	int x;
@@ -101,72 +101,72 @@ void	make_frame(char size_w, char size_h, char **arena, int fd, int edge_color)
 			ft_putnbr_fd(edge_color, fd);
 			write(fd, "m\03  \e[0m", 8);
 		}
-		while (arena[y][x])
+		while (arena[0][y][x])
 		{
-			if (arena[y][x] == BLANK)
+			if (arena[0][y][x] == BLANK)
 				write(fd, "  ", 2);
-			else if (arena[y][x] == GREY)
+			else if (arena[0][y][x] == GREY)
 				write(fd, "\e[48;5;237m\03  \e[0m", 18);
-			else if (arena[y][x] == RED)
+			else if (arena[0][y][x] == RED)
 				write(fd, "\e[48;5;160m\03  \e[0m", 18);
-			else if (arena[y][x] == GREEN)
+			else if (arena[0][y][x] == GREEN)
 				write(fd, "\e[48;5;28m\03  \e[0m", 18);
-			else if (arena[y][x] == BLUE)
+			else if (arena[0][y][x] == BLUE)
 				write(fd, "\e[48;5;20m\03  \e[0m", 18);
-			else if (arena[y][x] == YELLOW)
+			else if (arena[0][y][x] == YELLOW)
 				write(fd, "\e[48;5;226m\03  \e[0m", 18);
-			else if (arena[y][x] == WHITE)
+			else if (arena[0][y][x] == WHITE)
 				write(fd, "\e[48;5;231m\03  \e[0m", 18);
-			else if (arena[y][x] == BLACK)
+			else if (arena[0][y][x] == BLACK)
 			{
 				write(fd, "\e[48;5;232m\03", 12);
 				write(fd, "\033[1;33m  \033[0m", 14);
 				write(fd, "\e[0m", 4);
 			}
-			else if (arena[y][x] == YELLOW_DOT)
+			else if (arena[0][y][x] == YELLOW_DOT)
 			{
 				write(fd, "\e[48;5;232m\03", 12);
 				write(fd, "\033[1;33m .\033[0m", 14);
 				write(fd, "\e[0m", 4);
 			}
-			else if (arena[y][x] == BLUE_LINE_H)
+			else if (arena[0][y][x] == BLUE_LINE_H)
 			{
 				write(fd, "\e[48;5;232m\03", 12);
 				write(fd, "\033[1;34m━━\033[0m", 14);
 				write(fd, "\e[0m", 4);
 			}
-			else if (arena[y][x] == BLUE_LINE_V)
+			else if (arena[0][y][x] == BLUE_LINE_V)
 			{
 				write(fd, "\e[48;5;232m\03", 12);
 				write(fd, "\033[1;34m ┃\033[0m", 14);
 				write(fd, "\e[0m", 4);
 			}
-			else if (arena[y][x] == PACMAN_O)
+			else if (arena[0][y][x] == PACMAN_O)
 			{
 				write(fd, "\e[48;5;232m\03", 12);
 				//write(fd, "\033[1;33m ◯\033[0m", 14);
 				write(fd, "\033[1;33m ⬤\033[0m", 14);
 				write(fd, "\e[0m", 4);
 			}
-			else if (arena[y][x] == PACMAN_R)
+			else if (arena[0][y][x] == PACMAN_R)
 			{
 				write(fd, "\e[48;5;232m\03", 12);
 				write(fd, "\033[1;33m ᗧ\033[0m", 14);
 				write(fd, "\e[0m", 4);
 			}
-			else if (arena[y][x] == PACMAN_L)
+			else if (arena[0][y][x] == PACMAN_L)
 			{
 				write(fd, "\e[48;5;232m\03", 12);
 				write(fd, "\033[1;33m ᗤ\033[0m", 14);
 				write(fd, "\e[0m", 4);
 			}
-			else if (arena[y][x] == PACMAN_U)
+			else if (arena[0][y][x] == PACMAN_U)
 			{
 				write(fd, "\e[48;5;232m\03", 12);
 				write(fd, "\033[1;33m ᗢ\033[0m", 14);
 				write(fd, "\e[0m", 4);
 			}
-			else if (arena[y][x] == PACMAN_D)
+			else if (arena[0][y][x] == PACMAN_D)
 			{
 				write(fd, "\e[48;5;232m\03", 12);
 				write(fd, "\033[1;33m ᗣ\033[0m", 14);
@@ -231,14 +231,17 @@ char	timer(frame_time)
 
 void	engine(int size_w, int size_h, int speed, int edge_color)
 {
-	char	**arena;
+	char	***arena;
 	char	*tmp;
 	char	c;
 	int		fbuff;
 	int		len;
 
 	c = 0;
-	arena = make_arena(size_h, size_w);
+	arena = (char***)malloc(sizeof(char**) * (2));
+	arena[0] = make_arena(size_h, size_w);
+	arena[1] = make_arena(size_h, size_w);
+		printf("asd\n");
 	tmp = malloc(size_h * size_w * 22);
 	fclose(fopen(".buff", "w"));
 	system("/bin/stty raw");

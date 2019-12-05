@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 15:01:22 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/11/27 09:56:20 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/05 11:58:45 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_over(char *str, int color)
 	exit(0);
 }
 
-int		game(char c, char **arena, int size_w, int size_h)
+int		game(char c, char ***arena, int size_w, int size_h)
 {
 	static char first = 1;
 	static char p1_y;
@@ -66,17 +66,17 @@ int		game(char c, char **arena, int size_w, int size_h)
 		ball_y_pos = size_h / 2;
 		first = 0;
 	}
-	arena[p1_y - 2][0] = BLANK;
-	arena[p1_y - 1][0] = BLANK;
-	arena[p1_y][0] = BLANK;
-	arena[p1_y + 1][0] = BLANK;
-	arena[p1_y + 2][0] = BLANK;
-	arena[p2_y - 2][size_w - 1] = BLANK;
-	arena[p2_y - 1][size_w - 1] = BLANK;
-	arena[p2_y][size_w - 1] = BLANK;
-	arena[p2_y + 1][size_w - 1] = BLANK;
-	arena[p2_y + 2][size_w - 1] = BLANK;
-	arena[ball_y_pos][ball_x_pos] = BLANK;
+	arena[0][p1_y - 2][0] = BLANK;
+	arena[0][p1_y - 1][0] = BLANK;
+	arena[0][p1_y][0] = BLANK;
+	arena[0][p1_y + 1][0] = BLANK;
+	arena[0][p1_y + 2][0] = BLANK;
+	arena[0][p2_y - 2][size_w - 1] = BLANK;
+	arena[0][p2_y - 1][size_w - 1] = BLANK;
+	arena[0][p2_y][size_w - 1] = BLANK;
+	arena[0][p2_y + 1][size_w - 1] = BLANK;
+	arena[0][p2_y + 2][size_w - 1] = BLANK;
+	arena[0][ball_y_pos][ball_x_pos] = BLANK;
 	if (c == 'w')
 		p1_y--;
 	else if (c == 's')
@@ -158,37 +158,37 @@ int		game(char c, char **arena, int size_w, int size_h)
 		ft_over("\t\tPLAYER 2 WINS\t\t", GREEN);
 	else if (arena[p2_y][p2_x] == RED || arena[p2_y][p2_x] == GREEN)
 		ft_over("\t\tPLAYER 1 WINS\t\t", GREEN);*/
-	arena[p1_y - 2][0] = WHITE;
-	arena[p1_y - 1][0] = WHITE;
-	arena[p1_y][0] = WHITE;
-	arena[p1_y + 1][0] = WHITE;
-	arena[p1_y + 2][0] = WHITE;
-	arena[p2_y - 2][size_w - 1] = WHITE;
-	arena[p2_y - 1][size_w - 1] = WHITE;
-	arena[p2_y][size_w - 1] = WHITE;
-	arena[p2_y + 1][size_w - 1] = WHITE;
-	arena[p2_y + 2][size_w - 1] = WHITE;
+	arena[0][p1_y - 2][0] = WHITE;
+	arena[0][p1_y - 1][0] = WHITE;
+	arena[0][p1_y][0] = WHITE;
+	arena[0][p1_y + 1][0] = WHITE;
+	arena[0][p1_y + 2][0] = WHITE;
+	arena[0][p2_y - 2][size_w - 1] = WHITE;
+	arena[0][p2_y - 1][size_w - 1] = WHITE;
+	arena[0][p2_y][size_w - 1] = WHITE;
+	arena[0][p2_y + 1][size_w - 1] = WHITE;
+	arena[0][p2_y + 2][size_w - 1] = WHITE;
 
 	if (ball_x_pos == -1 || ball_x_pos == size_w)
 	{
 		sleep(1);
-		arena[p1_y - 2][0] = BLANK;
-		arena[p1_y - 1][0] = BLANK;
-		arena[p1_y][0] = BLANK;
-		arena[p1_y + 1][0] = BLANK;
-		arena[p1_y + 2][0] = BLANK;
-		arena[p2_y - 2][size_w - 1] = BLANK;
-		arena[p2_y - 1][size_w - 1] = BLANK;
-		arena[p2_y][size_w - 1] = BLANK;
-		arena[p2_y + 1][size_w - 1] = BLANK;
-		arena[p2_y + 2][size_w - 1] = BLANK;
+		arena[0][p1_y - 2][0] = BLANK;
+		arena[0][p1_y - 1][0] = BLANK;
+		arena[0][p1_y][0] = BLANK;
+		arena[0][p1_y + 1][0] = BLANK;
+		arena[0][p1_y + 2][0] = BLANK;
+		arena[0][p2_y - 2][size_w - 1] = BLANK;
+		arena[0][p2_y - 1][size_w - 1] = BLANK;
+		arena[0][p2_y][size_w - 1] = BLANK;
+		arena[0][p2_y + 1][size_w - 1] = BLANK;
+		arena[0][p2_y + 2][size_w - 1] = BLANK;
 		if (ball_x_pos == size_w)
 		ball_x_pos--;
-		arena[ball_y_pos][ball_x_pos] = BLANK;
+		arena[0][ball_y_pos][ball_x_pos] = BLANK;
 		first = 1;
 	}
 	else
-		arena[ball_y_pos][ball_x_pos] = WHITE; 
+		arena[0][ball_y_pos][ball_x_pos] = WHITE; 
 	return (0);
 }
 
