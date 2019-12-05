@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 12:00:15 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/05 12:03:10 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/05 14:12:19 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,6 @@ void	make_frame(char size_w, char size_h, char ***arena, int fd, int edge_color)
 {
 	int y;
 	int x;
-	if (edge_color == GREY)
-		edge_color = 237;
-	else if (edge_color == RED)
-		edge_color = 160;
-	else if (edge_color == GREEN)
-		edge_color = 28;
-	else if (edge_color == BLUE)
-		edge_color = 20;
-	else if (edge_color == YELLOW)
-		edge_color = 226;
-	else if (edge_color == WHITE)
-		edge_color = 231;
 	x = 0;
 	if (edge_color != BLANK)
 	{
@@ -105,60 +93,13 @@ void	make_frame(char size_w, char size_h, char ***arena, int fd, int edge_color)
 		{
 			if (arena[0][y][x] == BLANK)
 				write(fd, "  ", 2);
-			else if (arena[0][y][x] == GREY)
-				write(fd, "\e[48;5;237m\03  \e[0m", 18);
-			else if (arena[0][y][x] == RED)
-				write(fd, "\e[48;5;160m\03  \e[0m", 18);
-			else if (arena[0][y][x] == GREEN)
-				write(fd, "\e[48;5;28m\03  \e[0m", 18);
-			else if (arena[0][y][x] == BLUE)
-				write(fd, "\e[48;5;20m\03  \e[0m", 18);
-			else if (arena[0][y][x] == YELLOW)
-				write(fd, "\e[48;5;226m\03  \e[0m", 18);
-			else if (arena[0][y][x] == WHITE)
-				write(fd, "\e[48;5;231m\03  \e[0m", 18);
-			else if (arena[0][y][x] == BLACK)
+			else
 			{
-				write(fd, "\e[48;5;232m\03", 12);
-				write(fd, "\033[1;33m  \033[0m", 14);
-				write(fd, "\e[0m", 4);
+				write(fd, "\e[48;5;", 7);
+				ft_putnbr_fd(arena[0][y][x], fd);
+				write(fd, "m\03  \e[0m", 8);
 			}
-			else if (arena[0][y][x] == YELLOW_DOT)
-			{
-				write(fd, "\e[48;5;232m\03", 12);
-				write(fd, "\033[1;33m .\033[0m", 14);
-				write(fd, "\e[0m", 4);
-			}
-			else if (arena[0][y][x] == BLUE_LINE_H)
-			{
-				write(fd, "\e[48;5;232m\03", 12);
-				write(fd, "\033[1;34m━━\033[0m", 14);
-				write(fd, "\e[0m", 4);
-			}
-			else if (arena[0][y][x] == BLUE_LINE_V)
-			{
-				write(fd, "\e[48;5;232m\03", 12);
-				write(fd, "\033[1;34m ┃\033[0m", 14);
-				write(fd, "\e[0m", 4);
-			}
-			else if (arena[0][y][x] == PACMAN_O)
-			{
-				write(fd, "\e[48;5;232m\03", 12);
-				//write(fd, "\033[1;33m ◯\033[0m", 14);
-				write(fd, "\033[1;33m ⬤\033[0m", 14);
-				write(fd, "\e[0m", 4);
-			}
-			else if (arena[0][y][x] == PACMAN_R)
-			{
-				write(fd, "\e[48;5;232m\03", 12);
-				write(fd, "\033[1;33m ᗧ\033[0m", 14);
-				write(fd, "\e[0m", 4);
-			}
-			else if (arena[0][y][x] == PACMAN_L)
-			{
-				write(fd, "\e[48;5;232m\03", 12);
-				write(fd, "\033[1;33m ᗤ\033[0m", 14);
-				write(fd, "\e[0m", 4);
+			/*
 			}
 			else if (arena[0][y][x] == PACMAN_U)
 			{
@@ -171,13 +112,17 @@ void	make_frame(char size_w, char size_h, char ***arena, int fd, int edge_color)
 				write(fd, "\e[48;5;232m\03", 12);
 				write(fd, "\033[1;33m ᗣ\033[0m", 14);
 				write(fd, "\e[0m", 4);
-			}
+			}*/
+			// ⬤\
+			// ᗧ
+			// ᗤ
+			//━━
+			// ┃
 			//┗
 			//┛
 			//┓
 			//┏
 			//	ᗣ
-			//	ᗢ
 			//write(fd, "\033[0;33m ᗧ\033[0m", 14);
 			x++;
 		}
@@ -238,9 +183,10 @@ void	engine(int size_w, int size_h, int speed, int edge_color)
 	int		len;
 
 	c = 0;
-	arena = (char***)malloc(sizeof(char**) * (2));
+	arena = (char***)malloc(sizeof(char**) * (3));
 	arena[0] = make_arena(size_h, size_w);
 	arena[1] = make_arena(size_h, size_w);
+	arena[2] = make_arena(size_h, size_w);
 		printf("asd\n");
 	tmp = malloc(size_h * size_w * 22);
 	fclose(fopen(".buff", "w"));

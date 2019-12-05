@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 15:01:22 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/05 11:58:45 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/05 14:06:00 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,6 @@ int		game(char c, char ***arena, int size_w, int size_h)
 
 int		main(void)
 {
-	engine(36, 22, 50000, WHITE);
+	engine(36, 22, 50000, GREY);
 	return (0);
 }
