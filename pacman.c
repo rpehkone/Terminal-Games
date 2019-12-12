@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 16:50:31 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/05 14:45:45 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/13 00:11:16 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,23 @@ void	edit_arena(char **arena, int size_w, int size_h)
 	}
 }
 
+void	edit_arena2(char **arena, int size_w, int size_h)
+{
+	int x;
+	int y;
+
+	y = 0;
+	while (y < size_h)
+	{
+		x = 0;
+		while (x < size_w)
+		{
+			arena[y][x] = YELLOW;
+			x++;
+		}
+		y++;
+	}
+}
 int		game(char c, char ***arena, int size_w, int size_h)
 {
 	static int	first = 1;
@@ -193,6 +210,7 @@ int		game(char c, char ***arena, int size_w, int size_h)
 	{
 		first = 0;
 		edit_arena(arena[0], size_w, size_h);
+		edit_arena2(arena[1], size_w, size_h);
 	}
 	arena[2][p1_y][p1_x] = BLANK;
 //	arena[ghost1_y][ghost1_x] = BLANK;
@@ -210,33 +228,41 @@ int		game(char c, char ***arena, int size_w, int size_h)
 
 	if (frame == 2)
 	{
-		if (p1_c == 'w' && arena[0][p1_y - 1][p1_x] != BLUE_LINE_V && arena[0][p1_y - 1][p1_x] != BLUE_LINE_H)
+		if (p1_c == 'w' && arena[0][p1_y - 1][p1_x] != BLUE_LINE_V &&
+				arena[0][p1_y - 1][p1_x] != BLUE_LINE_H)
 		{
 			p1_c_old = p1_c;
 			p1_y--;
 		}
-		else if (p1_c == 'a' && arena[0][p1_y][p1_x - 1] != BLUE_LINE_V && arena[0][p1_y][p1_x - 1] != BLUE_LINE_H)
+		else if (p1_c == 'a' && arena[0][p1_y][p1_x - 1] != BLUE_LINE_V &&
+				arena[0][p1_y][p1_x - 1] != BLUE_LINE_H)
 		{
 			p1_c_old = p1_c;
 			p1_x--;
 		}
-		else if (p1_c == 's' && arena[0][p1_y + 1][p1_x] != BLUE_LINE_V && arena[0][p1_y + 1][p1_x] != BLUE_LINE_H)
+		else if (p1_c == 's' && arena[0][p1_y + 1][p1_x] != BLUE_LINE_V &&
+				arena[0][p1_y + 1][p1_x] != BLUE_LINE_H)
 		{
 			p1_c_old = p1_c;
 			p1_y++;
 		}
-		else if (p1_c == 'd' && arena[0][p1_y][p1_x + 1] != BLUE_LINE_V && arena[0][p1_y][p1_x + 1] != BLUE_LINE_H)
+		else if (p1_c == 'd' && arena[0][p1_y][p1_x + 1] != BLUE_LINE_V &&
+				arena[0][p1_y][p1_x + 1] != BLUE_LINE_H)
 		{
 			p1_c_old = p1_c;
 			p1_x++;
 		}
-		else if (p1_c_old == 'w' && arena[0][p1_y - 1][p1_x] != BLUE_LINE_V && arena[0][p1_y - 1][p1_x] != BLUE_LINE_H)
+		else if (p1_c_old == 'w' && arena[0][p1_y - 1][p1_x] != BLUE_LINE_V &&
+				arena[0][p1_y - 1][p1_x] != BLUE_LINE_H)
 			p1_y--;
-		else if (p1_c_old == 'a' && arena[0][p1_y][p1_x - 1] != BLUE_LINE_V && arena[0][p1_y][p1_x - 1] != BLUE_LINE_H)
+		else if (p1_c_old == 'a' && arena[0][p1_y][p1_x - 1] != BLUE_LINE_V &&
+				arena[0][p1_y][p1_x - 1] != BLUE_LINE_H)
 			p1_x--;
-		else if (p1_c_old == 's' && arena[0][p1_y + 1][p1_x] != BLUE_LINE_V && arena[0][p1_y + 1][p1_x] != BLUE_LINE_H)
+		else if (p1_c_old == 's' && arena[0][p1_y + 1][p1_x] != BLUE_LINE_V &&
+				arena[0][p1_y + 1][p1_x] != BLUE_LINE_H)
 			p1_y++;
-		else if (p1_c_old == 'd' && arena[0][p1_y][p1_x + 1] != BLUE_LINE_V && arena[0][p1_y][p1_x + 1] != BLUE_LINE_H)
+		else if (p1_c_old == 'd' && arena[0][p1_y][p1_x + 1] != BLUE_LINE_V &&
+				arena[0][p1_y][p1_x + 1] != BLUE_LINE_H)
 			p1_x++;
 		if (p1_x < 0)
 			p1_x = size_w - 1;
@@ -296,7 +322,7 @@ int		game(char c, char ***arena, int size_w, int size_h)
 */
 int		main(void)
 {
-	engine(26, 30, 200000, BLANK);
+	engine(26, 30, 200000, BLANK, game);
 	printf("GAME OVER");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 12:00:15 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/05 14:37:43 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/13 00:12:18 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,14 @@ void	make_frame(char size_w, char size_h, char ***arena, int fd, int edge_color)
 				else
 				{
 					write(fd, " ", 1);
-					write(fd, &arena[2][y][x], 1);
+					//if (arena[1][y][x] == BLANK)
+						write(fd, &arena[2][y][x], 1);
+					/*else
+					{
+						write(fd, "\033[0;33m", 7);
+						write(fd, &arena[2][y][x], 1);
+						write(fd, "\033[0m", 4);
+					}*/
 				}
 				write(fd, "\e[0m", 4);
 			}
@@ -182,7 +189,10 @@ char	timer(frame_time)
 	return (c[0]);
 }
 
-void	engine(int size_w, int size_h, int speed, int edge_color)
+//void	*engine_hook(int (*game)(char, char ***,int , int))
+
+void	engine(int size_w, int size_h, int speed, int edge_color,
+		int (*game)(char c, char ***arena, int size_w, int size_h))
 {
 	char	***arena;
 	char	*tmp;
@@ -195,7 +205,6 @@ void	engine(int size_w, int size_h, int speed, int edge_color)
 	arena[0] = make_arena(size_h, size_w);
 	arena[1] = make_arena(size_h, size_w);
 	arena[2] = make_arena(size_h, size_w);
-		printf("asd\n");
 	tmp = malloc(size_h * size_w * 22);
 	fclose(fopen(".buff", "w"));
 	system("/bin/stty raw");

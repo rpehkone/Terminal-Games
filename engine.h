@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 15:55:33 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/05 14:32:24 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/13 00:14:05 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # include <stdlib.h>
 # include <sys/time.h>
 
-int		game(char c, char ***arena, int size_w, int size_h);
-void	engine(int size_w, int size_h, int speed, int edge_color);
+void	engine(int size_w, int size_h, int speed, int edge_color,
+		int (*game)(char c, char ***arena, int size_w, int size_h));
 
 #endif
