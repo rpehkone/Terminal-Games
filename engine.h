@@ -6,15 +6,13 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 15:55:33 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/13 00:14:05 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/13 01:43:58 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENGINE_H
 
 # define ENGINE_H
-# define CTRL_Z 26
-# define ESC 27
 # define BLANK 1
 # define RED 124
 # define GREEN 28
@@ -38,7 +36,13 @@
 # include <stdlib.h>
 # include <sys/time.h>
 
+typedef struct	coords {
+		char	x;
+		char	y;
+		char	z;
+}				xyz;
+
 void	engine(int size_w, int size_h, int speed, int edge_color,
-		int (*game)(char c, char ***arena, int size_w, int size_h));
+		int (*game)(char key, char ***arena, int size_w, int size_h));
 
 #endif

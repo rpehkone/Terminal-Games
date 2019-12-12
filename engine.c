@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 12:00:15 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/13 00:12:18 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/13 01:24:31 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,9 +170,9 @@ char	timer(frame_time)
 	int				read_bytes;
 	int				ms;
 	fd_set			input_set;
-	char			c[50];
+	char			input[50];
 
-	c [0] = 0;
+	input[0] = 0;
 	read_bytes = 0;
 	ready_for_reading = 0;
 	gettimeofday(&start, NULL);
@@ -181,26 +181,24 @@ char	timer(frame_time)
 	timeout.tv_usec = frame_time;
 	ready_for_reading = select(1, &input_set, NULL, NULL, &timeout);
 	if (ready_for_reading)
-		read_bytes = read(0, c, 50);
+		read_bytes = read(0, input, 50);
 	gettimeofday(&stop, NULL);
 	ms = (((stop.tv_sec) * 1000 + (stop.tv_usec) / 1000) - ((start.tv_sec) * 1000 + (start.tv_usec) / 1000));
 	ms *= 1000;
 	usleep(6000 + frame_time - ms);
-	return (c[0]);
+	return (input[0]);
 }
 
-//void	*engine_hook(int (*game)(char, char ***,int , int))
-
 void	engine(int size_w, int size_h, int speed, int edge_color,
-		int (*game)(char c, char ***arena, int size_w, int size_h))
+		int (*game)(char key, char ***arena, int size_w, int size_h))
 {
 	char	***arena;
 	char	*tmp;
-	char	c;
+	char	key;
 	int		fbuff;
 	int		len;
 
-	c = 0;
+	key = 0;
 	arena = (char***)malloc(sizeof(char**) * (3));
 	arena[0] = make_arena(size_h, size_w);
 	arena[1] = make_arena(size_h, size_w);
@@ -208,11 +206,11 @@ void	engine(int size_w, int size_h, int speed, int edge_color,
 	tmp = malloc(size_h * size_w * 22);
 	fclose(fopen(".buff", "w"));
 	system("/bin/stty raw");
-	while (c != ESC && c != CTRL_Z)
+	while (key != 26 && key != 27)
 	{
-		c = timer(speed);
-		if (game(c, arena, size_w, size_h))
-			return ;
+		key = timer(speed);
+		if (!(game(key, arena, size_w, size_h)))
+			break ;
 		fbuff = open(".buff", O_WRONLY);
 		make_frame(size_w, size_h, arena, fbuff, edge_color);
 		close(fbuff);

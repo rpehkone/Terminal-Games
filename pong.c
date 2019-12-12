@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 15:01:22 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/13 00:14:25 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/13 01:26:53 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,13 +183,13 @@ int		pong(char c, char ***arena, int size_w, int size_h)
 		arena[0][p2_y + 1][size_w - 1] = BLANK;
 		arena[0][p2_y + 2][size_w - 1] = BLANK;
 		if (ball_x_pos == size_w)
-		ball_x_pos--;
+			ball_x_pos--;
 		arena[0][ball_y_pos][ball_x_pos] = BLANK;
 		first = 1;
 	}
 	else
 		arena[0][ball_y_pos][ball_x_pos] = WHITE; 
-	return (0);
+	return (1);
 }
 
 int		main(void)

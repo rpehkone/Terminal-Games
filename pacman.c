@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 16:50:31 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/13 00:11:16 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/13 01:26:07 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,7 +303,7 @@ int		game(char c, char ***arena, int size_w, int size_h)
 	}
 	mouth++;
 //	arena[ghost1_y][ghost1_x] = RED;
-	return (0);
+	return (1);
 }
 
 /*
