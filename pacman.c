@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 16:50:31 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/13 01:26:07 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/14 15:31:12 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ void	edit_arena(char **arena, int size_w, int size_h)
 		arena[15][x] = BLUE_LINE_H;
 		arena[18][x] = BLUE_LINE_H;
 		arena[20][x] = BLUE_LINE_H;
-		arena[22][x] = BLUE_LINE_H;
+		arena[21][x] = BLUE_LINE_H;
+		arena[23][x] = BLUE_LINE_H;
 		arena[24][x] = BLUE_LINE_H;
+		arena[26][x] = BLUE_LINE_H;
+		arena[27][x] = BLUE_LINE_H;
 		x++;
 	}
 	while (y < size_h)
@@ -54,7 +57,8 @@ void	edit_arena(char **arena, int size_w, int size_h)
 		arena[4][x] = BLANK;
 		arena[13][x] = BLANK;
 		arena[20][x] = BLANK;
-		arena[24][x] = BLANK;
+		arena[25][x] = BLANK;
+		arena[28][x] = BLANK;
 		x++;
 	}
 	y = 0;
@@ -153,8 +157,107 @@ void	edit_arena(char **arena, int size_w, int size_h)
 	arena[14][12] = BLANK;
 	arena[14][13] = BLANK;
 
+	arena[10][12] = BLANK;
+	arena[10][13] = BLANK;
+
 	arena[16][12] = BLANK;
 	arena[16][13] = BLANK;
+
+	arena[18][8] = BLANK;
+	arena[18][17] = BLANK;
+
+	arena[19][4] = BLANK;
+	arena[19][6] = BLANK;
+	arena[19][7] = BLANK;
+	arena[19][18] = BLANK;
+	arena[19][19] = BLANK;
+	arena[19][21] = BLANK;
+
+	arena[20][4] = BLUE;
+	arena[20][6] = BLUE;
+	arena[20][7] = BLUE;
+	arena[20][18] = BLUE;
+	arena[20][19] = BLUE;
+	arena[20][21] = BLUE;
+
+	arena[17][9] = BLUE;
+	arena[17][10] = BLUE;
+	arena[17][11] = BLUE;
+	arena[17][14] = BLUE;
+	arena[17][15] = BLUE;
+	arena[17][16] = BLUE;
+
+	arena[20][15] = BLUE;
+	arena[20][16] = BLUE;
+	arena[20][17] = BLUE;
+
+	arena[20][8] = BLUE;
+	arena[20][9] = BLUE;
+	arena[20][10] = BLUE;
+
+	arena[20][12] = BLUE;
+	arena[20][13] = BLUE;
+
+	arena[18][0] = BLUE;
+	arena[18][25] = BLUE;
+
+	arena[21][11] = BLANK;
+	arena[22][12] = BLANK;
+	arena[22][13] = BLANK;
+	arena[21][14] = BLANK;
+
+	arena[22][6] = BLANK;
+	arena[22][7] = BLANK;
+	arena[22][18] = BLANK;
+	arena[22][19] = BLANK;
+
+	arena[20][1] = BLUE;
+	arena[20][2] = BLUE;
+	arena[20][3] = BLUE;
+
+	arena[20][22] = BLUE;
+	arena[20][23] = BLUE;
+	arena[20][24] = BLUE;
+
+	arena[26][5] = BLUE;
+	arena[27][5] = BLUE;
+
+	arena[26][20] = BLUE;
+	arena[27][20] = BLUE;
+
+	arena[26][14] = BLANK;
+	arena[27][14] = BLANK;
+
+	arena[26][11] = BLANK;
+	arena[27][11] = BLANK;
+
+	arena[25][12] = BLUE;
+	arena[25][13] = BLUE;
+
+	arena[25][19] = BLUE;
+	arena[25][18] = BLUE;
+	arena[25][6] = BLUE;
+	arena[25][7] = BLUE;
+
+	arena[24][17] = BLANK;
+	arena[23][17] = BLANK;
+	arena[24][8] = BLANK;
+	arena[23][8] = BLANK;
+
+	arena[24][0] = BLUE;
+	arena[23][0] = BLUE;
+	arena[24][25] = BLUE;
+	arena[23][25] = BLUE;
+
+	arena[24][2] = BLANK;
+	arena[23][2] = BLANK;
+	arena[24][23] = BLANK;
+	arena[23][23] = BLANK;
+
+	arena[22][1] = BLANK;
+	arena[22][3] = BLUE;
+	arena[22][22] = BLUE;
+	arena[22][24] = BLANK;
 
 	y = 0;
 	while (y < size_h)
@@ -201,7 +304,7 @@ int		game(char c, char ***arena, int size_w, int size_h)
 	static char p1_c = 'a';
 	static char p1_c_old  = 'a';
 	static char p1_x = 14;
-	static char p1_y = 20;
+	static char p1_y = 16;
 //	static char ghost1_c = '1';
 //	static char ghost1_x = 38;
 //	static char ghost1_y = 19;
@@ -322,7 +425,7 @@ int		game(char c, char ***arena, int size_w, int size_h)
 */
 int		main(void)
 {
-	engine(26, 30, 200000, BLANK, game);
+	engine(26, 29, 200, BLANK, game);
 	printf("GAME OVER");
 	return (0);
 }
