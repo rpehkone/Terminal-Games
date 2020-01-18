@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 15:01:22 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/01/18 12:01:14 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/01/18 13:17:58 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,40 @@ void	put_tetromino(int x, int y, int tet_num, char ***arena, int clear, int rota
 	int i = 0;
 	int color;
 	char tetromino[7][17] =
-				   {".....XX..XX.....",
-					"....XXXX........",
-					".....XX...XX....",
-					"......XX.XX.....",
-					"....XXX..X......",
-					"....XXX.X.......",
-					"....XXX...X....."};
+				   {"...."
+					".XX."
+					".XX."
+					"....",
+
+					"...."
+					"XXXX"
+					"...."
+					"....",
+
+					"...."
+					".XX."
+					"..XX"
+					"....",
+
+					"...."
+					"..XX"
+					".XX."
+					"....",
+
+					"...."
+					"XXX."
+					".X.."
+					"....",
+
+					"...."
+					"XXX."
+					"X..."
+					"....",
+
+					"...."
+					"XXX."
+					"..X."
+					"...."};
 
 	if (clear == 1)
 		color = BLANK;
@@ -74,64 +101,47 @@ void	put_tetromino(int x, int y, int tet_num, char ***arena, int clear, int rota
 		if (tet_num == 6)
 			color = BLACK;
 	}
-	if (rotation == 0)
+	while (tetromino[tet_num][i])
 	{
-		while (tetromino[tet_num][i])
+		if (tetromino[tet_num][i] == 'X')
 		{
-			if (tetromino[tet_num][i] == 'X')
+			if (rotation == 0)
 				arena[0][y + (i / 4)][x + (i % 4)] = color;
-				//arena[0][y + (i / 4)][x + i - (i / 4 * 4)] = color;
-			i++;
-		}
-	}
-	if (rotation == 1)
-	{
-		while (tetromino[tet_num][i])
-		{
-			if (tetromino[tet_num][i] == 'X')
+			else if (rotation == 1)
 				arena[0][y + (i % 4)][x + (i / 4)] = color;
-			i++;
+			else if (rotation == 2)
+				arena[0][y - (i / 4) + 3][x + (i % 4)] = color;
+			else if (rotation == 3)
+				arena[0][y - (i % 4) + 3][x - (i / 4) + 3] = color;
 		}
-	}
-	if (rotation == 2)
-	{
-		while (tetromino[tet_num][i])
-		{
-			if (tetromino[tet_num][i] == 'X')
-				arena[0][y - (i / 4)][x + (i % 4)] = color;
-				//arena[0][y + (i / 4)][x + i - (i / 4 * 4)] = color;
-			i++;
-		}
-	}
-	if (rotation == 3)
-	{
-		while (tetromino[tet_num][i])
-		{
-			if (tetromino[tet_num][i] == 'X')
-				arena[0][y - (i % 4)][x - (i / 4)] = color;
-				//arena[0][y + (i / 4)][x + (i % 4)] = color;
-			i++;
-		}
+		i++;
 	}
 }
 
 int		tetris(char c, char ***arena, int size_w, int size_h)
 {
-	(void)size_h;
-	static char x = -1;
-	static char y = 3;
-	static int	tet_num = 0;
-	static int	timer = 0;
-	static int	rotation = 0;
+	static char x = 0;
+	static char y = 0;
+	static char	timer = 0;
+	static char	tet_num = -1;
+	static char	rotation = 0;
+	int old;
 
-	if (x < 0)
+	old = y;
+	if (tet_num == -1)
+	{
+		y = 3;
 		x = size_w / 2;
+		tet_num = rand() % 7;
+		rotation = rand() % 4;
+	}
 	put_tetromino(x, y, tet_num, arena, 1, rotation);
 
 	timer++;
 	if (timer == 10)
 	{
-		y++;
+		if (y < size_h - 4)
+			y++;
 		timer = 0;
 	}
 	if (c == '5')
@@ -139,23 +149,23 @@ int		tetris(char c, char ***arena, int size_w, int size_h)
 	else if (c == '2')
 		tet_num--;
 	else if (c == 'w')
-	{
-		rotation--;
-		if (rotation == -1)
-			rotation = 3;
-	}
-	else if (c == 's')
-	{
 		rotation++;
-		if (rotation == 4)
-			rotation = 0;
-	}
 	else if (c == 'a' && x > 0)
 		x--;
 	else if (c == 'd' && x < size_w - 4)
 		x++;
+	else if (c == 's')
+		if (y < size_h - 4)
+			y++;
+	if (rotation == 4)
+		rotation = 0;
 
 	put_tetromino(x, y, tet_num, arena, 0, rotation);
+	if (c + y + timer == old)
+	{
+		usleep(150000);
+		tet_num = -1;
+	}
 	return (1);
 }
 
