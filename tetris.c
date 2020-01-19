@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 15:01:22 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/01/19 19:32:59 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/01/19 19:45:06 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,11 +208,23 @@ int		collision(char ***arena, int tet_num, int rotation, int x, int y)
 	return (0);
 }
 
+void	make_edges(char ***arena, int size_w, int size_h)
+{
+	for (int i = 0; i < size_w; i++)
+		arena[0][0][i] = BLUE;
+	for (int i = 0; i < size_w; i++)
+		arena[0][size_h - 1][i] = BLUE;
+	for (int i = 0; i < size_h; i++)
+		arena[0][i][0] = BLUE;
+	for (int i = 0; i < size_h; i++)
+		arena[0][i][size_w - 1] = BLUE;
+}
+
 int		tetris(char c, char ***arena, int size_w, int size_h)
 {
 	static char x = 0;
 	static char y = 0;
-	static char	timer = 0;
+	static char	timer = -1;
 	static char	tet_num = -1;
 	static char	rotation = 0;
 	int old;
@@ -220,6 +232,8 @@ int		tetris(char c, char ***arena, int size_w, int size_h)
 	old = y;
 	if (tet_num == -1)
 	{
+		if (timer == -1)
+			make_edges(arena, size_w, size_h);
 		y = 3;
 		x = size_w / 2;
 		tet_num = rand() % 7;
@@ -232,31 +246,28 @@ int		tetris(char c, char ***arena, int size_w, int size_h)
 		tet_num--;
 	else if (c == 'w')
 	{
-		//int last_rot;
+		int last_rotation = rotation;
 		rotation++;
 		if (tet_num == 1 && rotation == 3)
 			rotation = 0;
 		if (rotation == 4)
 			rotation = 0;
-		//if (collision rotatio)
-				//rotation = last_rotation;
+		if (!collision(arena, tet_num, rotation, x, y))
+			rotation = last_rotation;
 	}
-	else if (c == 'a' && (x > 0 || (tet_num == 0 && x >= 0)) &&
-			collision(arena, tet_num, rotation, x - 1, y))
+	else if (c == 'a' && collision(arena, tet_num, rotation, x - 1, y))
 		x--;
-	else if (c == 'd' && (x < size_w - 4 || (tet_num == 0 && x <= size_w - 4)) &&
-			collision(arena, tet_num, rotation, x + 1, y))
+	else if (c == 'd' && collision(arena, tet_num, rotation, x + 1, y))
 		x++;
-	else if (c == 's' && y < size_h - 4 && collision(arena, tet_num, rotation, x, y + 1))
+	else if (c == 's' && collision(arena, tet_num, rotation, x, y + 1))
 			y++;
 	timer++;
-	if (timer == 10)
+	if (timer == 5)
 	{
-		if (y < size_h - 4 && collision(arena, tet_num, rotation, x, y + 1))
+		if (collision(arena, tet_num, rotation, x, y + 1))
 				y++;
 		timer = 0;
 	}
-
 	put_tetromino(x, y, tet_num, arena, 0, rotation);
 	if (y + timer == old)
 	{
@@ -268,6 +279,6 @@ int		tetris(char c, char ***arena, int size_w, int size_h)
 
 int		main(void)
 {
-	engine(25, 40, 50, BLUE, tetris);
+	engine(25, 40, 70, BLANK, tetris);
 	return (0);
 }

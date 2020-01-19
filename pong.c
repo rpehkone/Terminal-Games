@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 15:01:22 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/13 01:26:53 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/01/03 15:42:04 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,103 @@ void	ft_over(char *str, int color)
 	exit(0);
 }
 
+void	draw_number(char **arena, char x, char y, char num)
+{
+	switch (num)
+	{
+		case 0:	arena[x][y] =		GREY;
+				 arena[x][y + 1] =	GREY;
+				 arena[x][y + 2] =	GREY;
+				 arena[x + 1][y] =	GREY;
+				 arena[x + 1][y + 1] = BLANK;
+				 arena[x + 1][y + 2] = GREY;
+				 arena[x + 2][y] =	GREY;
+				 arena[x + 2][y + 1] = GREY;
+				 arena[x + 2][y + 2] = GREY;
+				 break;
+		case 1:	arena[x][y] =		BLANK;
+				 arena[x][y + 1] =	BLANK;
+				 arena[x][y + 2] =	GREY;
+				 arena[x + 1][y] =	BLANK;
+				 arena[x + 1][y + 1] = BLANK;
+				 arena[x + 1][y + 2] = GREY;
+				 arena[x + 2][y] =	BLANK;
+				 arena[x + 2][y + 1] = BLANK;
+				 arena[x + 2][y + 2] = GREY;
+				 break;
+		case 2:	arena[x][y] =		GREY;
+				 arena[x][y + 1] =	GREY;
+				 arena[x][y + 2] =	BLANK;
+				 arena[x + 1][y] =	BLANK;
+				 arena[x + 1][y + 1] = GREY;
+				 arena[x + 1][y + 2] = BLANK;
+				 arena[x + 2][y] =	BLANK;
+				 arena[x + 2][y + 1] = GREY;
+				 arena[x + 2][y + 2] = GREY;
+				 break;
+		case 3:	arena[x][y] =		GREY;
+				 arena[x][y + 1] =	GREY;
+				 arena[x][y + 2] =	GREY;
+				 arena[x + 1][y] =	BLANK;
+				 arena[x + 1][y + 1] = BLANK;
+				 arena[x + 1][y + 2] = GREY;
+				 arena[x + 2][y] =	GREY;
+				 arena[x + 2][y + 1] = GREY;
+				 arena[x + 2][y + 2] = GREY;
+				 break;
+		case 4:	arena[x][y] =		GREY;
+				 arena[x][y + 1] =	BLANK;
+				 arena[x][y + 2] =	GREY;
+				 arena[x + 1][y] =	GREY;
+				 arena[x + 1][y + 1] = GREY;
+				 arena[x + 1][y + 2] = GREY;
+				 arena[x + 2][y] =	BLANK;
+				 arena[x + 2][y + 1] = BLANK;
+				 arena[x + 2][y + 2] = GREY;
+				 break;
+		case 5:	arena[x][y] =		BLANK;
+				 arena[x][y + 1] =	BLANK;
+				 arena[x][y + 2] =	BLANK;
+				 arena[x + 1][y] =	BLANK;
+				 arena[x + 1][y + 1] = BLANK;
+				 arena[x + 1][y + 2] = BLANK;
+				 arena[x + 2][y] =	BLANK;
+				 arena[x + 2][y + 1] = BLANK;
+				 arena[x + 2][y + 2] = BLANK;
+				 break;
+		default: arena[x][y] =		BLANK;
+				 arena[x][y + 1] =	BLANK;
+				 arena[x][y + 2] =	BLANK;
+				 arena[x + 1][y] =	BLANK;
+				 arena[x + 1][y + 1] = BLANK;
+				 arena[x + 1][y + 2] = BLANK;
+				 arena[x + 2][y] =	BLANK;
+				 arena[x + 2][y + 1] = BLANK;
+				 arena[x + 2][y + 2] = BLANK;
+				 break;
+	}
+}
+
+void	draw_score(char **arena, int size_w, char p1s, char p2s)
+{
+	draw_number(arena, 2, size_w / 2 - 4, -1);
+	draw_number(arena, 2, size_w / 2 + 3, -1);
+
+	draw_number(arena, 2, size_w / 2 - 4, p1s);
+
+	arena[3][size_w / 2] = GREY;
+	arena[3][size_w / 2 + 1] = GREY;
+
+	draw_number(arena, 2, size_w / 2 + 3, p2s);
+}
+
 int		pong(char c, char ***arena, int size_w, int size_h)
 {
 	static char first = 1;
 	static char p1_y;
+	static char p1s = 0;
 	static char p2_y;
+	static char p2s = 0;
 	static char ball_x_pos; 
 	static char ball_y_pos;
 	static char ball_x_dir; 
@@ -169,6 +261,11 @@ int		pong(char c, char ***arena, int size_w, int size_h)
 	arena[0][p2_y + 1][size_w - 1] = WHITE;
 	arena[0][p2_y + 2][size_w - 1] = WHITE;
 
+	draw_score(arena[0], size_w, p1s, p2s);
+	if (ball_x_pos == -1)
+		p2s++;
+	if (ball_x_pos == size_w)
+		p1s++;
 	if (ball_x_pos == -1 || ball_x_pos == size_w)
 	{
 		sleep(1);
@@ -194,6 +291,7 @@ int		pong(char c, char ***arena, int size_w, int size_h)
 
 int		main(void)
 {
-	engine(36, 22, 50000, GREY, pong);
+	// 37, 22 is infinite
+	engine(35, 22, 50, GREY, pong);
 	return (0);
 }

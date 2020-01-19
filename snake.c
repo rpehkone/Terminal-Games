@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 15:01:22 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/13 01:45:30 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/14 14:16:50 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,10 +189,6 @@ int		snake(char c, char ***arena, int size_w, int size_h)
 
 int		main(void)
 {
-	for (int i = 0; i < 5; i++)
-	{
-		engine(45, 45, 100000, WHITE, snake);
-		sleep(2);
-	}
+	engine(45, 45, 100, WHITE, snake);
 	return (0);
 }

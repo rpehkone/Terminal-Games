@@ -6,14 +6,14 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 15:55:33 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/13 01:43:58 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/01/18 11:17:01 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENGINE_H
 
 # define ENGINE_H
-# define BLANK 1
+# define BLANK 1//change to clear
 # define RED 124
 # define GREEN 28
 # define BLUE 27

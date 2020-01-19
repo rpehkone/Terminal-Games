@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 12:00:15 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/13 01:24:31 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/14 14:13:11 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ void	engine(int size_w, int size_h, int speed, int edge_color,
 	int		len;
 
 	key = 0;
+	speed *= 1000;
 	arena = (char***)malloc(sizeof(char**) * (3));
 	arena[0] = make_arena(size_h, size_w);
 	arena[1] = make_arena(size_h, size_w);

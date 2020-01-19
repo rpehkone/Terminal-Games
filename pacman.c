@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 16:50:31 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/14 15:31:12 by rpehkone         ###   ########.fr       */
+/*   Updated: 2019/12/14 16:45:54 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,7 +356,7 @@ int		game(char c, char ***arena, int size_w, int size_h)
 			p1_x++;
 		}
 		else if (p1_c_old == 'w' && arena[0][p1_y - 1][p1_x] != BLUE_LINE_V &&
-				arena[0][p1_y - 1][p1_x] != BLUE_LINE_H)
+				arena[0][p1_y - 1][p1_x] != BLUE_LINE_H && p1_x != 0)
 			p1_y--;
 		else if (p1_c_old == 'a' && arena[0][p1_y][p1_x - 1] != BLUE_LINE_V &&
 				arena[0][p1_y][p1_x - 1] != BLUE_LINE_H)
@@ -368,13 +368,13 @@ int		game(char c, char ***arena, int size_w, int size_h)
 				arena[0][p1_y][p1_x + 1] != BLUE_LINE_H)
 			p1_x++;
 		if (p1_x < 0)
-			p1_x = size_w - 1;
-		else if (p1_x > size_w - 1)
 			p1_x = 0;
-		if (p1_y < 0)
-			p1_y = size_h - 1;
-		else if (p1_y > size_h - 1)
-			p1_y = 0;
+		else if (p1_x > size_w - 1)
+			p1_x = size_w - 1;
+		if (p1_y < 1)
+			p1_y = 1;
+		else if (p1_y > size_h - 2)
+			p1_y = size_h - 2;
 		frame = 0;
 	}
 	frame++;
@@ -425,7 +425,7 @@ int		game(char c, char ***arena, int size_w, int size_h)
 */
 int		main(void)
 {
-	engine(26, 29, 200, BLANK, game);
-	printf("GAME OVER");
+	engine(26, 29, 180, BLUE, game);
+	printf("\nGAME OVER");
 	return (0);
 }
