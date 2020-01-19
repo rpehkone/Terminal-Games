@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 15:01:22 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/01/18 13:17:58 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/01/19 19:32:59 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,96 @@ void	put_tetromino(int x, int y, int tet_num, char ***arena, int clear, int rota
 	}
 }
 
+int		collision(char ***arena, int tet_num, int rotation, int x, int y)
+{
+	char tetromino[7][17] =
+				   {"...."
+					".XX."
+					".XX."
+					"....",
+
+					"...."
+					"XXXX"
+					"...."
+					"....",
+
+					"...."
+					".XX."
+					"..XX"
+					"....",
+
+					"...."
+					"..XX"
+					".XX."
+					"....",
+
+					"...."
+					"XXX."
+					".X.."
+					"....",
+
+					"...."
+					"XXX."
+					"X..."
+					"....",
+
+					"...."
+					"XXX."
+					"..X."
+					"...."};
+
+	int i = 0;
+	while (tetromino[tet_num][i])
+	{
+		if (tetromino[tet_num][i] == 'X')
+		{
+			if (rotation == 0)
+			{
+				if (arena[0][y + (i / 4)][x + (i % 4)] != BLANK)
+					return (0);
+			}
+			else if (rotation == 1)
+			{
+				if (arena[0][y + (i % 4)][x + (i / 4)] != BLANK)
+					return (0);
+			}
+			else if (rotation == 2)
+			{
+				if (arena[0][y - (i / 4) + 3][x + (i % 4)] != BLANK)
+					return (0);
+			}
+			else if (rotation == 3)
+			{
+				if (arena[0][y - (i % 4) + 3][x - (i / 4) + 3] != BLANK)
+					return (0);
+			}
+		}
+		i++;
+	}
+	return (1);
+	/*if (dir == 'd' &&
+		arena[0][y + 3][x + 0] == BLANK &&
+		arena[0][y + 3][x + 1] == BLANK &&
+		arena[0][y + 3][x + 2] == BLANK &&
+		arena[0][y + 3][x + 3] == BLANK)
+		return (1);
+
+	if (dir == 'l' &&
+		arena[0][y + 0][x - 3] == BLANK &&
+		arena[0][y + 1][x - 3] == BLANK &&
+		arena[0][y + 2][x - 3] == BLANK &&
+		arena[0][y + 3][x - 3] == BLANK)
+		return (1);
+
+	if (dir == 'r' &&
+		arena[0][y + 0][x + 3] == BLANK &&
+		arena[0][y + 1][x + 3] == BLANK &&
+		arena[0][y + 2][x + 3] == BLANK &&
+		arena[0][y + 3][x + 3] == BLANK)
+		return (1);*/
+	return (0);
+}
+
 int		tetris(char c, char ***arena, int size_w, int size_h)
 {
 	static char x = 0;
@@ -136,32 +226,39 @@ int		tetris(char c, char ***arena, int size_w, int size_h)
 		rotation = rand() % 4;
 	}
 	put_tetromino(x, y, tet_num, arena, 1, rotation);
-
-	timer++;
-	if (timer == 10)
-	{
-		if (y < size_h - 4)
-			y++;
-		timer = 0;
-	}
 	if (c == '5')
 		tet_num++;
 	else if (c == '2')
 		tet_num--;
 	else if (c == 'w')
+	{
+		//int last_rot;
 		rotation++;
-	else if (c == 'a' && x > 0)
+		if (tet_num == 1 && rotation == 3)
+			rotation = 0;
+		if (rotation == 4)
+			rotation = 0;
+		//if (collision rotatio)
+				//rotation = last_rotation;
+	}
+	else if (c == 'a' && (x > 0 || (tet_num == 0 && x >= 0)) &&
+			collision(arena, tet_num, rotation, x - 1, y))
 		x--;
-	else if (c == 'd' && x < size_w - 4)
+	else if (c == 'd' && (x < size_w - 4 || (tet_num == 0 && x <= size_w - 4)) &&
+			collision(arena, tet_num, rotation, x + 1, y))
 		x++;
-	else if (c == 's')
-		if (y < size_h - 4)
+	else if (c == 's' && y < size_h - 4 && collision(arena, tet_num, rotation, x, y + 1))
 			y++;
-	if (rotation == 4)
-		rotation = 0;
+	timer++;
+	if (timer == 10)
+	{
+		if (y < size_h - 4 && collision(arena, tet_num, rotation, x, y + 1))
+				y++;
+		timer = 0;
+	}
 
 	put_tetromino(x, y, tet_num, arena, 0, rotation);
-	if (c + y + timer == old)
+	if (y + timer == old)
 	{
 		usleep(150000);
 		tet_num = -1;
