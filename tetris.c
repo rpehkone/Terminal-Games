@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 15:01:22 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/01/20 14:27:28 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/01/20 15:21:59 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,10 @@ int		rm_white(char ***arena, int size_w, int size_h)
 		{
 			for (j = 1; j < size_w - 1; j++)
 				arena[0][i][j] = BLANK; //screen cant have less pixels than last time;
+			//move all down
+			for (int k = i; k > 2; k--)
+				for (int l = 1; l < size_w - 1; l++)
+					arena[0][k][l] = arena[0][k - 1][l];
 		}
 	}
 	return (0);
