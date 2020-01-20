@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 15:01:22 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/01/19 19:45:06 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/01/20 14:27:28 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,27 +185,6 @@ int		collision(char ***arena, int tet_num, int rotation, int x, int y)
 		i++;
 	}
 	return (1);
-	/*if (dir == 'd' &&
-		arena[0][y + 3][x + 0] == BLANK &&
-		arena[0][y + 3][x + 1] == BLANK &&
-		arena[0][y + 3][x + 2] == BLANK &&
-		arena[0][y + 3][x + 3] == BLANK)
-		return (1);
-
-	if (dir == 'l' &&
-		arena[0][y + 0][x - 3] == BLANK &&
-		arena[0][y + 1][x - 3] == BLANK &&
-		arena[0][y + 2][x - 3] == BLANK &&
-		arena[0][y + 3][x - 3] == BLANK)
-		return (1);
-
-	if (dir == 'r' &&
-		arena[0][y + 0][x + 3] == BLANK &&
-		arena[0][y + 1][x + 3] == BLANK &&
-		arena[0][y + 2][x + 3] == BLANK &&
-		arena[0][y + 3][x + 3] == BLANK)
-		return (1);*/
-	return (0);
 }
 
 void	make_edges(char ***arena, int size_w, int size_h)
@@ -220,6 +199,41 @@ void	make_edges(char ***arena, int size_w, int size_h)
 		arena[0][i][size_w - 1] = BLUE;
 }
 
+int		rm_white(char ***arena, int size_w, int size_h)
+{
+	for (int i = 1; i < size_h - 1; i++)
+	{
+		int j = 1;
+		while (j < size_w - 1 && arena[0][i][j] == WHITE)
+			j++;
+		if (j == size_w - 1)
+		{
+			for (j = 1; j < size_w - 1; j++)
+				arena[0][i][j] = BLANK; //screen cant have less pixels than last time;
+		}
+	}
+	return (0);
+}
+
+int		last_row(char ***arena, int size_w, int size_h)
+{
+	int res = 0;
+
+	for (int i = 1; i < size_h - 1; i++)
+	{
+		int j = 1;
+		while (j < size_w - 1 && arena[0][i][j] != BLANK)
+			j++;
+		if (j == size_w - 1)
+		{
+			for (j = 1; j < size_w - 1; j++)
+				arena[0][i][j] = WHITE;
+			res = 1;
+		}
+	}
+	return (res);
+}
+
 int		tetris(char c, char ***arena, int size_w, int size_h)
 {
 	static char x = 0;
@@ -227,6 +241,7 @@ int		tetris(char c, char ***arena, int size_w, int size_h)
 	static char	timer = -1;
 	static char	tet_num = -1;
 	static char	rotation = 0;
+	static int	remove_lines = 0;
 	int old;
 
 	old = y;
@@ -234,10 +249,15 @@ int		tetris(char c, char ***arena, int size_w, int size_h)
 	{
 		if (timer == -1)
 			make_edges(arena, size_w, size_h);
-		y = 3;
-		x = size_w / 2;
+		y = 2;
+		x = size_w / 2 - 2;
 		tet_num = rand() % 7;
 		rotation = rand() % 4;
+		if (!collision(arena, tet_num, rotation, x, y))
+		{
+			printf("YOU LOSE");
+			exit(0);
+		}
 	}
 	put_tetromino(x, y, tet_num, arena, 1, rotation);
 	if (c == '5')
@@ -268,17 +288,25 @@ int		tetris(char c, char ***arena, int size_w, int size_h)
 				y++;
 		timer = 0;
 	}
+	if (remove_lines > 0)
+		if (++remove_lines > 10)
+		{
+			rm_white(arena, size_w, size_h);
+			remove_lines = 0;
+		}
 	put_tetromino(x, y, tet_num, arena, 0, rotation);
 	if (y + timer == old)
 	{
 		usleep(150000);
 		tet_num = -1;
+		if (last_row(arena, size_w, size_h))
+			remove_lines = 1;
 	}
 	return (1);
 }
 
 int		main(void)
 {
-	engine(25, 40, 70, BLANK, tetris);
+	engine(15, 20, 70, BLANK, tetris);
 	return (0);
 }
