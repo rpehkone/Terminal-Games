@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 12:00:15 by rpehkone          #+#    #+#             */
-/*   Updated: 2019/12/14 14:13:11 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/01/21 18:59:52 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,10 +205,10 @@ void	engine(int size_w, int size_h, int speed, int edge_color,
 	arena[1] = make_arena(size_h, size_w);
 	arena[2] = make_arena(size_h, size_w);
 	tmp = malloc(size_h * size_w * 22);
-	fclose(fopen(".buff", "w"));
 	system("/bin/stty raw");
 	while (key != 26 && key != 27)
 	{
+		fclose(fopen(".buff", "w"));
 		key = timer(speed);
 		if (!(game(key, arena, size_w, size_h)))
 			break ;
@@ -220,7 +220,7 @@ void	engine(int size_w, int size_h, int speed, int edge_color,
 		while ((len = read(fbuff, tmp, (size_h * size_w * 22))) > 0)
 			write(1, tmp, len);
 		close(fbuff);
+		remove(".buff");
 	}
-	remove(".buff");
 	system("/bin/stty cooked");
 }

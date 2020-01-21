@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 15:01:22 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/01/20 15:21:59 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/01/21 18:55:17 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,13 @@ void	put_tetromino(int x, int y, int tet_num, char ***arena, int clear, int rota
 		if (tetromino[tet_num][i] == 'X')
 		{
 			if (rotation == 0)
-				arena[0][y + (i / 4)][x + (i % 4)] = color;
+				arena[0][y + (i / 4)][x - (i % 4) + 2] = color;
 			else if (rotation == 1)
 				arena[0][y + (i % 4)][x + (i / 4)] = color;
 			else if (rotation == 2)
-				arena[0][y - (i / 4) + 3][x + (i % 4)] = color;
+				arena[0][y - (i / 4) + 2][x + (i % 4)] = color;
 			else if (rotation == 3)
-				arena[0][y - (i % 4) + 3][x - (i / 4) + 3] = color;
+				arena[0][y - (i % 4) + 2][x - (i / 4) + 2] = color;
 		}
 		i++;
 	}
@@ -163,7 +163,7 @@ int		collision(char ***arena, int tet_num, int rotation, int x, int y)
 		{
 			if (rotation == 0)
 			{
-				if (arena[0][y + (i / 4)][x + (i % 4)] != BLANK)
+				if (arena[0][y + (i / 4)][x - (i % 4) + 2] != BLANK)
 					return (0);
 			}
 			else if (rotation == 1)
@@ -173,12 +173,12 @@ int		collision(char ***arena, int tet_num, int rotation, int x, int y)
 			}
 			else if (rotation == 2)
 			{
-				if (arena[0][y - (i / 4) + 3][x + (i % 4)] != BLANK)
+				if (arena[0][y - (i / 4) + 2][x + (i % 4)] != BLANK)
 					return (0);
 			}
 			else if (rotation == 3)
 			{
-				if (arena[0][y - (i % 4) + 3][x - (i / 4) + 3] != BLANK)
+				if (arena[0][y - (i % 4) + 2][x - (i / 4) + 2] != BLANK)
 					return (0);
 			}
 		}
@@ -210,7 +210,6 @@ int		rm_white(char ***arena, int size_w, int size_h)
 		{
 			for (j = 1; j < size_w - 1; j++)
 				arena[0][i][j] = BLANK; //screen cant have less pixels than last time;
-			//move all down
 			for (int k = i; k > 2; k--)
 				for (int l = 1; l < size_w - 1; l++)
 					arena[0][k][l] = arena[0][k - 1][l];
@@ -252,11 +251,19 @@ int		tetris(char c, char ***arena, int size_w, int size_h)
 	if (tet_num == -1)
 	{
 		if (timer == -1)
+		{
 			make_edges(arena, size_w, size_h);
+			srand(time(0));
+			tet_num = rand() % 7;
+		}
 		y = 2;
 		x = size_w / 2 - 2;
 		tet_num = rand() % 7;
 		rotation = rand() % 4;
+		if (tet_num == 1 && rotation == 3)
+			rotation = 1;
+		if (tet_num == 0 && rotation != 0)
+			rotation = 0;
 		if (!collision(arena, tet_num, rotation, x, y))
 		{
 			printf("YOU LOSE");
@@ -271,10 +278,12 @@ int		tetris(char c, char ***arena, int size_w, int size_h)
 	else if (c == 'w')
 	{
 		int last_rotation = rotation;
-		rotation++;
+		rotation--;
+		if (rotation == -1)
+			rotation = 3;
 		if (tet_num == 1 && rotation == 3)
-			rotation = 0;
-		if (rotation == 4)
+			rotation = 1;
+		if (tet_num == 0 && rotation != 0)
 			rotation = 0;
 		if (!collision(arena, tet_num, rotation, x, y))
 			rotation = last_rotation;
