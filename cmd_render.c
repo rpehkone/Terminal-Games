@@ -1,12 +1,14 @@
+#define VC_EXTRALEAN 1
+#define WIN32_EXTRA_LEAN 1
 #define LEAN_AND_MEAN 1
 #include <windows.h>
 
-typedef struct		t_image
+struct				t_image
 {
 	u32				width;
 	u32				height;
 	u32				*pixels;
-}					t_image;
+};
 
 u8	rgba32_to_ansi(u32 color)
 {
@@ -32,8 +34,8 @@ u8	rgba32_to_ansi(u32 color)
 
 void	clear_console(HANDLE hConsole)
 {
-    COORD coordScreen = {0};
-    SetConsoleCursorPosition(hConsole, coordScreen);
+	COORD coordScreen = {0};
+	SetConsoleCursorPosition(hConsole, coordScreen);
 }
 
 ivec2	get_console_size(void)
@@ -49,7 +51,7 @@ ivec2	get_console_size(void)
 
 void	image_to_console(t_image *image)
 {
-    char	*brightness = ".'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
+	char	*brightness = ".'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
 	char	buf[10000];
 	int		i = 0;
 
@@ -57,10 +59,10 @@ void	image_to_console(t_image *image)
 	{
 		for (int x = 0; x < image->width; x++)
 		{
-            float b = rgba32_brightness(image->pixels[x + y * image->width]);
-            u32 idx = ((u32)strlen(brightness) - 1) * b;
-            char c1 = brightness[idx];
-            char c2 = brightness[idx + 1];
+			float b = rgba32_brightness(image->pixels[x + y * image->width]);
+			u32 idx = ((u32)strlen(brightness) - 1) * b;
+			char c1 = brightness[idx];
+			char c2 = brightness[idx + 1];
 
 			char str[20];
 			sprintf(str, "\e[48;5;%dm%c%c", rgba32_to_ansi(image->pixels[x + y * image->width]), c1, c2);
@@ -71,9 +73,9 @@ void	image_to_console(t_image *image)
 		buf[i] = '\n';
 		i++;
 	}
-    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-    DWORD byteswritten;
-    WriteConsole(h, buf, i, &byteswritten, NULL);
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+	DWORD byteswritten;
+	WriteConsole(h, buf, i, &byteswritten, NULL);
 }
 
 void	console_render(t_image *image)
